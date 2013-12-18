@@ -27,8 +27,7 @@ public class SpawnEnemies : MonoBehaviour {
 		{
 			Vector3 randomPoint = new Vector3 (Random.Range (-5.0f, 5.0f), 0.0f, Random.Range (-5.0f, 5.0f));
 			randomPoint = Vector3.Scale(randomPoint, ground.transform.localScale);
-			Vector3 origin = new Vector3 (0.0f, 0.0f, 0.0f);
-			GameObject instEnemy = (GameObject)Instantiate (enemy, randomPoint, Quaternion.LookRotation(randomPoint-origin));
+			GameObject instEnemy = (GameObject)Instantiate (enemy, randomPoint, Quaternion.LookRotation(-randomPoint));
 			Component movepos = instEnemy.AddComponent("BasicEnemy");
 			//movepos.movementSpeed = Random.Range( 0.2f, 2.0f);
 			//instEnemy.tag = "Enemy";

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class BasicEnemy : Actor {
 
 	public float movementSpeed = 0.5f;
-	public float rotationSpeed = 2.0f;
+	public float rotationSpeed = 1.0f;
 	public float avoidanceFactor = 2.0f;
 	public float targetDistance = 3.0f;
 	public float avoidanceDistance = 1.5f;
@@ -57,7 +57,7 @@ public class BasicEnemy : Actor {
 
 		// orient enemy to direction of motion
 		Vector3 deltaPos = lastPos - transform.position;
-		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation (deltaPos), Time.deltaTime * rotationSpeed);
+		transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation (-deltaPos), Time.deltaTime * rotationSpeed);
 
 	}
 }
