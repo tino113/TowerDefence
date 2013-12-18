@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BasicEnemy : Actor {
+public class BasicEnemy : Dynamic {
 
 	public float movementSpeed = 0.5f;
 	public float rotationSpeed = 1.0f;
