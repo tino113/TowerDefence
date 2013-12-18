@@ -17,7 +17,7 @@ public class Actor : MonoBehaviour {
 	// initialise regardless of script being loaded
 	void Awake () {
 
-		if (actorList == null)
+		if (actorList == null) //only initialise if not already done so.
 			actorList = new List<GameObject>();
 
 	}

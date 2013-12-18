@@ -40,9 +40,28 @@ public class VerticalRotate : Tower {
 		}*/
 
 		if (Actor.actorList.Count > 0) {
-			Vector3 vertCompVec = new Vector3(0.0f,target.transform.position.y,0.0f);
-			Vector3 lookDir = vertCompVec-transform.position;
-			transform.localRotation = Quaternion.Euler(lookDir);
+
+			// angle = dotproduct of two normalized vectors one with and one without a y component.
+			// axis = cross product of those same two vectors
+
+			Vector3 dirVec =  target.transform.position - transform.position;
+			Debug.DrawLine(target.transform.position,transform.position);
+			Vector3 dirVecNoY = dirVec;
+			dirVecNoY.y = 0;
+			Debug.DrawLine(Vector3.Scale(target.transform.position, new Vector3(1,0,1)),Vector3.Scale( transform.position,new Vector3(1,0,1)));
+
+			dirVec.Normalize();
+			dirVecNoY.Normalize();
+
+			float angle = Vector3.Dot(dirVec,dirVecNoY);
+			Vector3 axis = Vector3.Cross(dirVec,dirVecNoY);
+
+			transform.localRotation = Quaternion.AngleAxis( angle, axis );
+
+			//Vector3 vertCompVec = new Vector3(0.0f,target.transform.position.y,0.0f);
+			//Vector3 lookDir = vertCompVec-transform.position;
+			//transform.localRotation = Quaternion.Euler(lookDir);
 		}
 	}
+
 }

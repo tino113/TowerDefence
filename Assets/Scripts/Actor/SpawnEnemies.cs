@@ -27,8 +27,6 @@ public class SpawnEnemies : Actor {
 			Component movepos = instEnemy.AddComponent("BasicEnemy");
 
 			actorList.Add(instEnemy);
-			Debug.Log (actorList.Count);
-
 		}
 	}
 }
