@@ -51,7 +51,8 @@ public class Dynamic : Actor {
 
 	public void flock (){
 		// move away from closest actor (really basic flocking behaviours)
-		foreach (GameObject actor in Actor.actorList) {
+		//Debug.Log (actorList.Count);
+		foreach (GameObject actor in actorList) {
 			
 			if (actor != this.gameObject){
 				// test current position against actor
