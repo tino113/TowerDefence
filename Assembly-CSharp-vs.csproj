@@ -47,10 +47,13 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Actor\Actor.cs" />
+     <Compile Include="Assets\Scripts\Actor\Dynamic.cs" />
      <Compile Include="Assets\Scripts\Actor\Enemy\BasicEnemy.cs" />
      <Compile Include="Assets\Scripts\Actor\FireLaser.cs" />
      <Compile Include="Assets\Scripts\Actor\SpawnEnemies.cs" />
+     <Compile Include="Assets\Scripts\Actor\Static.cs" />
      <Compile Include="Assets\Scripts\Actor\Towers\RotateHoriz.cs" />
+     <Compile Include="Assets\Scripts\Actor\Towers\Tower.cs" />
      <Compile Include="Assets\Scripts\Actor\Towers\VerticalRotate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

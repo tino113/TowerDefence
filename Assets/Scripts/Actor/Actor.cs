@@ -8,6 +8,7 @@ public class Actor : MonoBehaviour {
 	public float health = 100.0f;
 	public float firePower = 0.2f;
 	public float rateOfFire = 0.2f;
+	public float targetDistance = 3.0f;
 
 	// Use this for initialization
 	void Start () {

@@ -39,7 +39,7 @@ public class VerticalRotate : MonoBehaviour {
 			transform.localRotation = Quaternion.Euler(tmpVec2);
 		}*/
 
-		Vector3 vertCompVec = new Vector3(0,target.transform.position.y,0);
+		Vector3 vertCompVec = new Vector3(0.0f,target.transform.position.y,0.0f);
 		Vector3 lookDir = vertCompVec-transform.position;
 		transform.localRotation = Quaternion.Euler(lookDir);
 	}
