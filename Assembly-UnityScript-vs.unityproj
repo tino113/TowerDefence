@@ -5,11 +5,11 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{28866EB0-7993-C171-348D-8535A8E3480D}</ProjectGuid>
+	<ProjectGuid>{C0366CA2-DD8C-169A-0AC4-36BA819C4DAB}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
-	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<AssemblyName>Assembly-UnityScript</AssemblyName>
 	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
 	<FileAlignment>512</FileAlignment>
 	<BaseDirectory>Assets</BaseDirectory>
@@ -46,13 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Actor.cs" />
-     <Compile Include="Assets\BasicEnemy.cs" />
-     <Compile Include="Assets\FireFromBarrel.cs" />
-     <Compile Include="Assets\FireLaser.cs" />
-     <Compile Include="Assets\Scripts\Towers\RotateHoriz.cs" />
-     <Compile Include="Assets\Scripts\Towers\VerticalRotate.cs" />
-     <Compile Include="Assets\SpawnEnemies.cs" />
+     <Compile Include="Assets\Scripts\Towers\FireFromBarrel.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

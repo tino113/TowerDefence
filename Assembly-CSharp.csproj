@@ -46,8 +46,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Actor.cs" />
+     <Compile Include="Assets\BasicEnemy.cs" />
+     <Compile Include="Assets\FireFromBarrel.cs" />
+     <Compile Include="Assets\FireLaser.cs" />
      <Compile Include="Assets\Scripts\Towers\RotateHoriz.cs" />
      <Compile Include="Assets\Scripts\Towers\VerticalRotate.cs" />
+     <Compile Include="Assets\SpawnEnemies.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
