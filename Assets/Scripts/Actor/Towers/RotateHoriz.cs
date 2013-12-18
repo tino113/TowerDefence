@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RotateHoriz : MonoBehaviour {
+public class RotateHoriz : Tower {
 
 	private GameObject target;
 	public float rotationSpeed = 2.0f;
@@ -19,14 +19,14 @@ public class RotateHoriz : MonoBehaviour {
 	{
 
 		// if current target is dead pick the closest new one.
-		if (target == null){
+		if (target == null && Actor.actorList.Count > 0){
 			float leastDist = 99999999999.0f;
-			foreach (GameObject enemy in SpawnEnemies.enemyList) {
+			foreach (GameObject actor in Actor.actorList) {
 				// if current target is not
 				//if (enemy.health > 0)
-				Vector3 testVec  = enemy.transform.position - transform.position;
+				Vector3 testVec  = actor.transform.position - transform.position;
 				if (testVec.magnitude < leastDist){
-					target = enemy;
+					target = actor;
 				}
 			}
 		}

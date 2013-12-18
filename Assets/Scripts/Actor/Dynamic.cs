@@ -23,26 +23,22 @@ public class Dynamic : Actor {
 	}
 
 	public void slerpToTarget (){
-		Vector3 movement = -transform.position.normalized * movementSpeed;
 		Vector3 target = transform.position.normalized * targetDistance;
 		
 		transform.position = Vector3.Slerp (transform.position, target, Time.time * 0.001f * movementSpeed);
 	}
 
 	public void slerpTo (Vector3 target){
-		Vector3 movement = -transform.position.normalized * movementSpeed;		
-		transform.position = Vector3.Slerp (transform.position, target, Time.time * 0.001f * movementSpeed);
+		transform.position = Vector3.Slerp (transform.position, target.normalized * targetDistance, Time.time * 0.001f * movementSpeed);
 	}
 
 	public void lerpToTarget (){
-		Vector3 movement = -transform.position.normalized * movementSpeed;
 		Vector3 target = transform.position.normalized * targetDistance;
 		
 		transform.position = Vector3.Lerp (transform.position, target, Time.time * 0.001f * movementSpeed);
 	}
 	
 	public void lerpTo (Vector3 target){
-		Vector3 movement = -transform.position.normalized * movementSpeed;		
 		transform.position = Vector3.Lerp (transform.position, target, Time.time * 0.001f * movementSpeed);
 	}
 
@@ -54,29 +50,30 @@ public class Dynamic : Actor {
 	}
 
 	public void flock (){
-		// move away from closest enemy (really basic flocking behaviours)
-		foreach (GameObject enemy in SpawnEnemies.enemyList) {
+		// move away from closest actor (really basic flocking behaviours)
+		foreach (GameObject actor in Actor.actorList) {
 			
-			if (enemy != this.gameObject){
-				// test current position against enemy
-				Vector3 direction = transform.position - enemy.transform.position;
+			if (actor != this.gameObject){
+				// test current position against actor
+				Vector3 direction = transform.position - actor.transform.position;
 				
-				// avoid other enemies
+				// avoid other actors
 				if ( direction.magnitude <= avoidanceDistance){
 					transform.position += direction * Time.deltaTime * movementSpeed * avoidanceFactor;
 				}
 				
-				// try to match the movement of other enemies
+				// try to match the movement of other actors
 				/*if ( direction.magnitude <= flockWithDistance){
 					transform.position += direction * Time.deltaTime * movementSpeed * avoidanceFactor;
 				}*/
 				
 				// if the distance is really close
 				if (direction.magnitude <= avoidanceDistance * 0.1f){
-					Vector3 randomDir = new Vector3(Random.Range(-1.0f,1.0f),0,Random.Range(-1.0f,1.0f));
-					transform.position += enemy.transform.position.normalized * Time.deltaTime * movementSpeed;
+					transform.position += actor.transform.position.normalized * Time.deltaTime * movementSpeed;
 				}
 			}
 		}
 	}
+
+
 }

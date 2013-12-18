@@ -20,7 +20,7 @@ public class BasicEnemy : Dynamic {
 		// move to target
 		slerpToTarget ();
 		
-		// flock with other dynamics
+		// flock with other enemies
 		flock ();
 		
 		// orient to direction of motion

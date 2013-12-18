@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class VerticalRotate : MonoBehaviour {
+public class VerticalRotate : Tower {
 
 	private GameObject target;
 	public float rotationSpeed = 3000.0f;
@@ -16,12 +16,12 @@ public class VerticalRotate : MonoBehaviour {
 	void Update () 
 	{
 		// if current target is dead pick the closest new one.
-		if (target == null){
+		if (target == null && Actor.actorList.Count > 0){
 			float leastDist = 99999999999.0f;
-			foreach (GameObject enemy in SpawnEnemies.enemyList) {
-				Vector3 testVec  = enemy.transform.position - transform.position;
+			foreach (GameObject actor in Actor.actorList) {
+				Vector3 testVec  = actor.transform.position - transform.position;
 				if (testVec.magnitude < leastDist){
-					target = enemy;
+					target = actor;
 				}
 			}
 		}
@@ -39,8 +39,10 @@ public class VerticalRotate : MonoBehaviour {
 			transform.localRotation = Quaternion.Euler(tmpVec2);
 		}*/
 
-		Vector3 vertCompVec = new Vector3(0.0f,target.transform.position.y,0.0f);
-		Vector3 lookDir = vertCompVec-transform.position;
-		transform.localRotation = Quaternion.Euler(lookDir);
+		if (Actor.actorList.Count > 0) {
+			Vector3 vertCompVec = new Vector3(0.0f,target.transform.position.y,0.0f);
+			Vector3 lookDir = vertCompVec-transform.position;
+			transform.localRotation = Quaternion.Euler(lookDir);
+		}
 	}
 }
