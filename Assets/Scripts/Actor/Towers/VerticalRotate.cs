@@ -47,7 +47,7 @@ public class VerticalRotate : Tower {
 				if (laser.lineRenderer != null){
 					laser.fire();
 					Actor tmpAct = (Actor)target.GetComponent("Actor");
-					tmpAct.health -= 50.0f;
+					tmpAct.health -= 1.0f;
 				}
 			} else{
 				if (laser.lineRenderer != null){

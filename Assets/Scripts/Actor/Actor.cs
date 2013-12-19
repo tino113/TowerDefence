@@ -30,11 +30,17 @@ public class Actor : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void checkHealth (){
+
+		//Debug.Log (name + " health: " + health);
 		// check to see if health is below 0;
 		if (health <= 0) {
 			// TODO: play some kind of death animation
 			// once the animationis finished then:
-			Debug.Log(name + " I'm Dead!");
+			Debug.Log(name + " is Dead!");
+			actorList.Remove(this.gameObject);
 			Destroy(this.gameObject);
 		}
 	}

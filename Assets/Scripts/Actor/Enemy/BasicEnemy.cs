@@ -19,7 +19,7 @@ public class BasicEnemy : Dynamic {
 
 		// get the last position
 		Vector3 lastPos = transform.position;
-		
+
 		// move to target
 		slerpToTarget ();
 		
@@ -28,6 +28,9 @@ public class BasicEnemy : Dynamic {
 		
 		// orient to direction of motion
 		orientToMovement (lastPos);
+
+		//check my health
+		checkHealth ();
 
 	}
 }
