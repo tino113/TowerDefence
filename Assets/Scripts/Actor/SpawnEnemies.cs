@@ -24,7 +24,7 @@ public class SpawnEnemies : Actor {
 			Vector3 randomPoint = new Vector3 (Random.Range (-5.0f, 5.0f), 0.0f, Random.Range (-5.0f, 5.0f));
 			randomPoint = Vector3.Scale(randomPoint, ground.transform.localScale);
 			GameObject instEnemy = (GameObject)Instantiate (enemyType, randomPoint, Quaternion.LookRotation(-randomPoint));
-			Component movepos = instEnemy.AddComponent("BasicEnemy");
+			instEnemy.AddComponent("BasicEnemy");
 
 			actorList.Add(instEnemy);
 		}

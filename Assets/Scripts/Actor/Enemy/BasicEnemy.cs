@@ -6,6 +6,9 @@ public class BasicEnemy : Dynamic {
 
 	// Use this for initialization
 	void Start () {
+
+		// allow to fire a laser
+		//this.gameObject.AddComponent ("Laser");
 	
 	}
 	
