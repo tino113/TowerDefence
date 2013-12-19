@@ -4,8 +4,7 @@ using System.Collections;
 public class RotateHoriz : Tower {
 
 	private GameObject target;
-	public float rotationSpeed = 2.0f;
-	[Range(1, 10)] public float turnSpeed;
+	[Range(1, 10)] public float turnSpeed = 2.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -22,19 +21,22 @@ public class RotateHoriz : Tower {
 		if (target == null && Actor.actorList.Count > 0){
 			float leastDist = 99999999999.0f;
 			foreach (GameObject actor in Actor.actorList) {
-				// if current target is not
-				//if (enemy.health > 0)
-				Vector3 testVec  = actor.transform.position - transform.position;
-				if (testVec.magnitude < leastDist){
-					target = actor;
+				if (tag == "friendly" && actor.tag == "enemy" || tag == "enemy" && actor.tag == "friendly"){
+					Vector3 testVec  = actor.transform.position - transform.position;
+					if (testVec.magnitude < leastDist){
+						target = actor;
+						leastDist = testVec.magnitude;
+					}
 				}
 			}
 		}
+		if (target != null && Actor.actorList.Count > 0){
 
-		if (target != null) {
-			Vector3 lookDir = target.transform.position-transform.position;
+			Vector3 lookDir = target.transform.position - transform.position;
 			lookDir.y = 0; // keep only the horizontal direction
-			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), Time.deltaTime * rotationSpeed);
+			if (lookDir.magnitude > 0){
+				transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), Time.deltaTime * turnSpeed);
+			}
 		}
 
 	}

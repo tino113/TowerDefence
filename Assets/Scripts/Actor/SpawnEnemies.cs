@@ -26,7 +26,9 @@ public class SpawnEnemies : Actor {
 			GameObject instEnemy = (GameObject)Instantiate (enemyType, randomPoint, Quaternion.LookRotation(-randomPoint));
 			instEnemy.AddComponent("BasicEnemy");
 
+			instEnemy.tag = "enemy";
 			actorList.Add(instEnemy);
+
 		}
 	}
 }
