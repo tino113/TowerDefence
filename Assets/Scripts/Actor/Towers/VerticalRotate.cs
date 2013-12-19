@@ -5,9 +5,7 @@ public class VerticalRotate : Tower {
 
 	public GameObject target;
 	[Range(1, 10)] public float turnSpeed = 2.0f;
-
-	public delegate void onTarget();
-	public static event onTarget targeted;
+	[Range(0.1f, 5)] public float accuracy = 2.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +27,8 @@ public class VerticalRotate : Tower {
 					}
 				}
 			}
+			laser.barrelEnd = transform.GetChild (0).gameObject;
+			laser.target = target;
 		}
 		if (target != null && Actor.actorList.Count > 0){
 
@@ -38,14 +38,20 @@ public class VerticalRotate : Tower {
 			dirVec.Normalize(); dirVecNoY.Normalize();
 			float angle = Mathf.Acos(Vector3.Dot(dirVec,dirVecNoY));
 
-			Quaternion rot = Quaternion.AngleAxis( -angle*(180/Mathf.PI), Vector3.left ) * Quaternion.Euler(0.0f,0.0f,270.0f);
+			Quaternion rot = Quaternion.AngleAxis( -angle* Mathf.Rad2Deg , Vector3.left ) * Quaternion.Euler(0.0f,0.0f,270.0f);
 
 			transform.localRotation = Quaternion.Slerp( transform.localRotation, rot , Time.deltaTime * turnSpeed);
 
-			if (transform.localRotation == rot )
+			if ( Quaternion.Angle( transform.localRotation, rot) <= accuracy )
 			{
-				if ( targeted != null){
-					targeted();
+				if (laser.lineRenderer != null){
+					laser.fire();
+					Actor tmpAct = (Actor)target.GetComponent("Actor");
+					tmpAct.health -= 50.0f;
+				}
+			} else{
+				if (laser.lineRenderer != null){
+					laser.fireEnd();
 				}
 			}
 
