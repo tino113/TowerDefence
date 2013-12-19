@@ -57,10 +57,12 @@ public class Dynamic : Actor {
 			if (actor != this.gameObject){
 				// test current position against actor
 				Vector3 direction = transform.position - actor.transform.position;
+				Vector3 directionNoY = direction;
+				directionNoY.y = 0;
 				
 				// avoid other actors
 				if ( direction.magnitude <= avoidanceDistance){
-					transform.position += direction * Time.deltaTime * movementSpeed * avoidanceFactor;
+					transform.position += directionNoY * Time.deltaTime * movementSpeed * avoidanceFactor;
 				}
 				
 				// try to match the movement of other actors
