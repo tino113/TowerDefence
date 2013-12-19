@@ -45,18 +45,12 @@ public class VerticalRotate : Tower {
 			// axis = cross product of those same two vectors
 
 			Vector3 dirVec =  target.transform.position - transform.position;
-			Debug.DrawLine(target.transform.position,transform.position);
-			Vector3 dirVecNoY = dirVec;
-			dirVecNoY.y = 0;
-			Debug.DrawLine(Vector3.Scale(target.transform.position, new Vector3(1,0,1)),Vector3.Scale( transform.position,new Vector3(1,0,1)));
+			Vector3 dirVecNoY = dirVec; dirVecNoY.y = 0;
 
-			dirVec.Normalize();
-			dirVecNoY.Normalize();
+			dirVec.Normalize(); dirVecNoY.Normalize();
+			float angle = Mathf.Acos(Vector3.Dot(dirVec,dirVecNoY));
 
-			float angle = Vector3.Dot(dirVec,dirVecNoY);
-			Vector3 axis = Vector3.Cross(dirVec,dirVecNoY);
-
-			transform.localRotation = Quaternion.AngleAxis( angle, axis );
+			transform.localRotation = Quaternion.Slerp( transform.localRotation, Quaternion.AngleAxis( -angle*(180/Mathf.PI), Vector3.left ) * Quaternion.Euler(0.0f,0.0f,270.0f), Time.deltaTime * rotationSpeed);
 
 			//Vector3 vertCompVec = new Vector3(0.0f,target.transform.position.y,0.0f);
 			//Vector3 lookDir = vertCompVec-transform.position;
