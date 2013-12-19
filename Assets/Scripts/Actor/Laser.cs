@@ -24,6 +24,7 @@ public class Laser : Actor {
 	// Update is called once per frame
 	void Update () {
 
+
 			
 	}
 
@@ -33,10 +34,7 @@ public class Laser : Actor {
 			Vector3 pos = Vector3.Lerp(barrelEnd.transform.position , target.transform.position, i/2.0f);
 			lineRenderer.SetPosition(i, pos);
 		}
-
-		if (tag == "friendly" && target.tag == "enemy" || tag == "enemy" && target.tag == "friendly"){
-			target.health -= firePower;
-		}
+		target.health -= firePower;
 	}
 
 }

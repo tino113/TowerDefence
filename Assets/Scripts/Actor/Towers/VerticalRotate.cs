@@ -3,8 +3,11 @@ using System.Collections;
 
 public class VerticalRotate : Tower {
 
-	private GameObject target;
+	public GameObject target;
 	[Range(1, 10)] public float turnSpeed = 2.0f;
+
+	public delegate void onTarget();
+	public static event onTarget targeted;
 
 	// Use this for initialization
 	void Start () {
@@ -35,11 +38,17 @@ public class VerticalRotate : Tower {
 			dirVec.Normalize(); dirVecNoY.Normalize();
 			float angle = Mathf.Acos(Vector3.Dot(dirVec,dirVecNoY));
 
-			transform.localRotation = Quaternion.Slerp( transform.localRotation, Quaternion.AngleAxis( -angle*(180/Mathf.PI), Vector3.left ) * Quaternion.Euler(0.0f,0.0f,270.0f), Time.deltaTime * turnSpeed);
+			Quaternion rot = Quaternion.AngleAxis( -angle*(180/Mathf.PI), Vector3.left ) * Quaternion.Euler(0.0f,0.0f,270.0f);
 
-			//Vector3 vertCompVec = new Vector3(0.0f,target.transform.position.y,0.0f);
-			//Vector3 lookDir = vertCompVec-transform.position;
-			//transform.localRotation = Quaternion.Euler(lookDir);
+			transform.localRotation = Quaternion.Slerp( transform.localRotation, rot , Time.deltaTime * turnSpeed);
+
+			if (transform.localRotation == rot )
+			{
+				if ( targeted != null){
+					targeted();
+				}
+			}
+
 		}
 	}
 
