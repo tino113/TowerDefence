@@ -37,12 +37,31 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public void Update () {
-		UpdateInput ();
+		targetX += Input.GetAxis("Horizontal") * FactorZoom(moveSpeed/2, moveSpeed);
+		targetZ += Input.GetAxis("Vertical") * FactorZoom(moveSpeed/2, moveSpeed);
+
 		targetX   = Lerp (transform.position.x, targetX, moveDamping);
 		targetY   = Lerp (transform.position.y, FactorZoom(minY, maxY), zoomDamping);
 		targetZ   = Lerp (transform.position.z, targetZ, moveDamping);
 		targetR   = Lerp (transform.localRotation.eulerAngles.x, FactorZoom(minR, maxR), zoomDamping);
 		targetFoV = Lerp (camera.fieldOfView, FactorZoom(minFoV, maxFoV), zoomDamping);
+
+		float scrollAmount = Input.GetAxis ("Mouse ScrollWheel") * zoomSpeed;
+		if (scrollAmount != 0) {
+			if (scrollAmount > 0) { // move towards point only when zooming in, not out
+				Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+				RaycastHit hitData;
+				bool hit = Physics.Raycast (ray.origin, ray.direction, out hitData);
+				targetMouse = hit ? hitData.point : targetMouse;
+
+				targetX = Lerp(targetX, targetMouse.x, moveDamping);
+				targetZ = Lerp(targetZ, targetMouse.z, moveDamping);
+			}
+
+			zoom += scrollAmount;
+			zoom = Mathf.Clamp (zoom, 0, 100);
+		}
+
 		UpdateCamera ();
 	}
 
@@ -58,26 +77,5 @@ public class CameraController : MonoBehaviour {
 		transform.localRotation = Quaternion.Euler(targetR, 0, 0);
 		transform.position = new Vector3 (targetX, targetY, targetZ);
 		camera.fieldOfView = targetFoV;
-	}
-
-	private void UpdateInput () {
-		targetX += Input.GetAxis("Horizontal") * FactorZoom(moveSpeed/2, moveSpeed);
-		targetZ += Input.GetAxis("Vertical") * FactorZoom(moveSpeed/2, moveSpeed);
-
-		float scrollAmount = Input.GetAxis ("Mouse ScrollWheel") * zoomSpeed;
-		if (scrollAmount != 0) {
-			if (scrollAmount > 0) { // move towards point only when zooming in, not out
-				Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-				RaycastHit hitData;
-				bool hit = Physics.Raycast (ray.origin, ray.direction, out hitData);
-				targetMouse = hit ? hitData.point : targetMouse;
-
-				targetX = Lerp(targetX, hitData.point.x, moveDamping);
-				targetZ = Lerp(targetZ, hitData.point.z, moveDamping);
-			}
-
-			zoom += scrollAmount;
-			zoom = Mathf.Clamp (zoom, 0, 100);
-		}
 	}
 }
