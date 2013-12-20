@@ -3,36 +3,48 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 
-	public float zoomSpeed = 0.0005f;
+	private float zoomSpeed = 5f;
 	private float minZoom = 40;
 	private float maxZoom = 100;
 
 	//private float sensitivityDistance = 7.5f;
-	//private float damping = 0.02f;
 
-	public float moveSpeed = 10f;
+	private float moveSpeed = 5f;
+	private float damping = 0.02f;
+	private float cameraTargetField;
+
 	private float horizontalMove = 0f;
 	private float verticalMove = 0f;
+
+	void Start () {
+		cameraTargetField = camera.fieldOfView;
+	}
 
 	void Update () {
 		horizontalMove += Input.GetAxis("Horizontal") * moveSpeed;
 		verticalMove += Input.GetAxis("Vertical") * moveSpeed;
-		float mouseScroll = Input.GetAxis ("Mouse ScrollWheel") * zoomSpeed;
+		float mouseScroll = (Input.GetAxis ("Mouse ScrollWheel")*10) * zoomSpeed;
 
-		float _x = Mathf.Lerp (transform.position.x, horizontalMove, Time.deltaTime);
-		float _z = Mathf.Lerp (transform.position.z, verticalMove, Time.deltaTime);
+		float _x = Mathf.Lerp (transform.position.x, horizontalMove, Time.deltaTime * damping);
+		float _z = Mathf.Lerp (transform.position.z, verticalMove, Time.deltaTime * damping);
+
+		// zoom in
+		if (mouseScroll > 0 && cameraTargetField >= minZoom) {
+			cameraTargetField += mouseScroll;
+			//if (cameraTargetField > minZoom) {
+			//	transform.rotation = Quaternion.Lerp(transform.rotation, transform.rotation * Quaternion.Euler(2, 0, 0), 5f);
+			//}
+
+		// zoom out
+		} else if (mouseScroll < 0 && cameraTargetField <= maxZoom) {
+			cameraTargetField += mouseScroll;
+			//if (cameraTargetField < maxZoom) {
+			//	transform.rotation = Quaternion.Lerp(transform.rotation, transform.rotation * Quaternion.Euler(-2, 0, 0), 5f);
+			//}
+		}
 
 		transform.position = new Vector3 (_x, 7, _z);
-
-		if (mouseScroll > 0 && camera.fieldOfView > minZoom) { //in
-			camera.fieldOfView += Mathf.Lerp( camera.fieldOfView, -mouseScroll, Time.deltaTime);
-			//Mathf.Min(camera.fieldOfView+mouseScroll*zoomSpeed, minZoom);
-			//transform.rotation = Quaternion.Lerp(transform.rotation, transform.rotation * Quaternion.Euler(2, 0, 0), 5f);
-		}
-
-		if (mouseScroll < 0 && camera.fieldOfView < maxZoom) { //out
-			camera.fieldOfView += Mathf.Lerp( camera.fieldOfView, -mouseScroll, Time.deltaTime);//Mathf.Max(camera.fieldOfView-mouseScroll*zoomSpeed, maxZoom);
-			//transform.rotation = Quaternion.Lerp(transform.rotation, transform.rotation * Quaternion.Euler(-2, 0, 0), 5f);
-		}
+		cameraTargetField = Mathf.Clamp (cameraTargetField, minZoom, maxZoom);
+		camera.fieldOfView = Mathf.Lerp (camera.fieldOfView, cameraTargetField, Time.deltaTime); 
 	}
 }
