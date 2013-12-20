@@ -26,23 +26,23 @@ public class CameraController : MonoBehaviour {
 	private float targetR;
 	private float targetFoV;
 
-	void Start(){
+	public void Start () {
 		zoom      = 30f;
 		targetX   = startX;
-		targetY   = ZoomCalc(minY, maxY);
+		targetY   = FactorZoom(minY, maxY);
 		targetZ   = startZ;
-		targetR   = ZoomCalc(minR, maxR);
-		targetFoV = ZoomCalc(minFoV, maxFoV);
+		targetR   = FactorZoom(minR, maxR);
+		targetFoV = FactorZoom(minFoV, maxFoV);
 		UpdateCamera ();
 	}
 
-	void Update () {
+	public void Update () {
 		UpdateInput ();
 		targetX   = Lerp (transform.position.x, targetX, moveDamping);
-		targetY   = Lerp (transform.position.y, ZoomCalc(minY, maxY), zoomDamping);
+		targetY   = Lerp (transform.position.y, FactorZoom(minY, maxY), zoomDamping);
 		targetZ   = Lerp (transform.position.z, targetZ, moveDamping);
-		targetR   = Lerp (transform.localRotation.eulerAngles.x, ZoomCalc(minR, maxR), zoomDamping);
-		targetFoV = Lerp (camera.fieldOfView, ZoomCalc(minFoV, maxFoV), zoomDamping);
+		targetR   = Lerp (transform.localRotation.eulerAngles.x, FactorZoom(minR, maxR), zoomDamping);
+		targetFoV = Lerp (camera.fieldOfView, FactorZoom(minFoV, maxFoV), zoomDamping);
 		UpdateCamera ();
 	}
 
@@ -50,19 +50,19 @@ public class CameraController : MonoBehaviour {
 		return Mathf.Lerp (from, to, Time.deltaTime * damping);
 	}
 
-	private float ZoomCalc (float min, float max) {
+	private float FactorZoom (float min, float max) {
 		return (((max - min) / 100) * (100 - zoom)) + min;
 	}
 
-	private void UpdateCamera() {
+	private void UpdateCamera () {
 		transform.localRotation = Quaternion.Euler(targetR, 0, 0);
 		transform.position = new Vector3 (targetX, targetY, targetZ);
 		camera.fieldOfView = targetFoV;
 	}
 
-	private void UpdateInput(){
-		targetX += Input.GetAxis("Horizontal") * ZoomCalc(moveSpeed/2, moveSpeed);
-		targetZ += Input.GetAxis("Vertical") * ZoomCalc(moveSpeed/2, moveSpeed);
+	private void UpdateInput () {
+		targetX += Input.GetAxis("Horizontal") * FactorZoom(moveSpeed/2, moveSpeed);
+		targetZ += Input.GetAxis("Vertical") * FactorZoom(moveSpeed/2, moveSpeed);
 		zoom += Input.GetAxis ("Mouse ScrollWheel") * 40f;
 		zoom = Mathf.Clamp (zoom, 0, 100);
 	}

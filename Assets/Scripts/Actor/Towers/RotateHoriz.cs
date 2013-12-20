@@ -6,11 +6,7 @@ public class RotateHoriz : Tower {
 	private GameObject target;
 	[Range(1, 10)] public float turnSpeed = 2.0f;
 
-	void Start () {
-
-	}
-
-	void Update() {
+	public void Update() {
 		// if current target is dead pick the closest new one.
 		if (target == null && Actor.actorList.Count > 0) {
 			float leastDist = 99999999999.0f;

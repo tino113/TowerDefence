@@ -4,33 +4,16 @@ using System.Collections.Generic;
 
 public class BasicEnemy : Dynamic {
 
-	// Use this for initialization
-	void Start () {
-
+	public void Start () {
 		// allow to fire a laser
 		//this.gameObject.AddComponent ("Laser");
-	
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-		// enemy specific update calls
-
-		// get the last position
-		Vector3 lastPos = transform.position;
-
-		// move to target
-		slerpToTarget ();
-		
-		// flock with other enemies
-		flock ();
-		
-		// orient to direction of motion
-		orientToMovement (lastPos);
-
-		//check my health
+	public void Update () {
+		Vector3 lastPos = transform.position; // get the last position
+		slerpToTarget (); // move to target
+		flock (); // flock with other enemies
+		orientToMovement (lastPos); // orient to direction of motion
 		checkHealth ();
-
 	}
 }

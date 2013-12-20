@@ -46,7 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\LightSimulation.cs" />
      <Compile Include="Assets\Scripts\Actor\Actor.cs" />
      <Compile Include="Assets\Scripts\Actor\Dynamic.cs" />
      <Compile Include="Assets\Scripts\Actor\Enemy\BasicEnemy.cs" />
@@ -58,6 +57,7 @@
      <Compile Include="Assets\Scripts\Actor\Towers\Tower.cs" />
      <Compile Include="Assets\Scripts\Actor\Towers\VerticalRotate.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
+     <Compile Include="Assets\Scripts\LightSimulation.cs" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
