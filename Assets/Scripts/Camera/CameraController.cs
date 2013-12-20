@@ -6,9 +6,8 @@ public class CameraController : MonoBehaviour {
 	public float startX;
 	public float startZ;
 
-	private float zoomSpeed = 5f;
+	public float zoomSpeed = 40f;
 	private float zoomDamping = 6f;
-
 	private float moveSpeed = 2f;
 	private float moveDamping = 20f;
 
@@ -25,6 +24,7 @@ public class CameraController : MonoBehaviour {
 	private float targetZ;
 	private float targetR;
 	private float targetFoV;
+	private Vector3 targetMouse;
 
 	public void Start () {
 		zoom      = 30f;
@@ -63,7 +63,21 @@ public class CameraController : MonoBehaviour {
 	private void UpdateInput () {
 		targetX += Input.GetAxis("Horizontal") * FactorZoom(moveSpeed/2, moveSpeed);
 		targetZ += Input.GetAxis("Vertical") * FactorZoom(moveSpeed/2, moveSpeed);
-		zoom += Input.GetAxis ("Mouse ScrollWheel") * 40f;
-		zoom = Mathf.Clamp (zoom, 0, 100);
+
+		float scrollAmount = Input.GetAxis ("Mouse ScrollWheel") * zoomSpeed;
+		if (scrollAmount != 0) {
+			if (scrollAmount > 0) { // move towards point only when zooming in, not out
+				Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+				RaycastHit hitData;
+				bool hit = Physics.Raycast (ray.origin, ray.direction, out hitData);
+				targetMouse = hit ? hitData.point : targetMouse;
+
+				targetX = Lerp(targetX, hitData.point.x, moveDamping);
+				targetZ = Lerp(targetZ, hitData.point.z, moveDamping);
+			}
+
+			zoom += scrollAmount;
+			zoom = Mathf.Clamp (zoom, 0, 100);
+		}
 	}
 }

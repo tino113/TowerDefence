@@ -31,7 +31,7 @@ public class Actor : MonoBehaviour {
 
 	protected void AddTagRecursive (Transform trans, string tag) {
 		trans.gameObject.tag = tag;
-		if (trans.GetChildCount() > 0) {
+		if (trans.childCount > 0) {
 			foreach (Transform t in trans) {
 				AddTagRecursive(t, tag);
 			}
