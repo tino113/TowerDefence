@@ -10,12 +10,19 @@ public class CameraController : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		float move_h = Input.GetAxis("Horizontal");
-		float move_v = Input.GetAxis("Vertical");
+		float horizontalMove = Input.GetAxis("Horizontal");
+		float verticalMove = Input.GetAxis("Vertical");
+		float mouseScroll = Input.GetAxis ("Mouse ScrollWheel");
 		
-		Vector3 movement = new Vector3 (move_h, 0.0f, move_v);
+		Vector3 movement = new Vector3 (horizontalMove, 0.0f, verticalMove);
 		transform.position += movement * speed * Time.deltaTime;
 
+		if (mouseScroll < 0) {
+			camera.fieldOfView = Mathf.Min(camera.fieldOfView+2, 100);
+		}
 
+		if (mouseScroll > 0) {
+			camera.fieldOfView = Mathf.Max(camera.fieldOfView-2, 40);
+		}
 	}
 }
