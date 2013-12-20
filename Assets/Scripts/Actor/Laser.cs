@@ -10,6 +10,8 @@ public class Laser : Actor {
 	public Color startColour;
 	public Color endColour;
 
+	public float lastFiredAt = 0.0f;
+
 	public LineRenderer lineRenderer = new LineRenderer();
 
 	void Awake () {
@@ -24,10 +26,12 @@ public class Laser : Actor {
 		lineRenderer = (LineRenderer)this.gameObject.AddComponent("LineRenderer");
 		lineRenderer.material = new Material (Shader.Find("Particles/Additive"));
 		lineRenderer.SetColors (startColour, endColour);
-		lineRenderer.SetWidth(0.02f,0.02f);
+		lineRenderer.SetWidth(0.03f,0.02f);
 		lineRenderer.SetVertexCount(2);
 
 		lineRenderer.enabled = false;
+
+		lastFiredAt = Time.time;
 
 	}
 	
@@ -47,13 +51,48 @@ public class Laser : Actor {
 		lineRenderer.enabled = true;
 	}
 
-	public void fireAt (GameObject target) {
-		//lineRenderer = (LineRenderer)GetComponent ("lineRenderer");
-		for(int i = 0; i < 2; i++) {
-			Vector3 pos = Vector3.Lerp(barrelEnd.transform.position , target.transform.position, i);
-			lineRenderer.SetPosition(i, pos);
-		}
+	public void fireAt (GameObject at) {
+		target = at;
+		fire ();
+	}
+
+	public void fireFromTo (GameObject from, GameObject to) {
+		target = to;
+		barrelEnd = from;
+		fire ();
+	}
+
+	public void fireFrom (Vector3 from, Vector3 direction) {
+		RaycastHit hitData;
+		bool hit = Physics.Raycast (from, direction, out hitData);
+
+		lineRenderer.SetPosition(0, from);
+		if (hit)
+			lineRenderer.SetPosition(1, hitData.point);
+		else
+			lineRenderer.SetPosition(1, from + direction*99999999.9f);
+
 		lineRenderer.enabled = true;
+	}
+
+	public bool fireFromAndTest (Vector3 from, Vector3 direction, GameObject target ) {
+		RaycastHit hitData;
+		bool hit = Physics.Raycast (from, direction, out hitData);
+
+		lineRenderer.SetPosition (0, from);
+		if (hit)
+			lineRenderer.SetPosition (1, hitData.point);
+		else
+			lineRenderer.SetPosition (1, from + direction * 99999999.9f);
+		
+		if (lastFiredAt == 0.0f || Time.time - (lastFiredAt + rateOfFire) >= pulseLength) {
+			lineRenderer.enabled = true;
+			lastFiredAt = Time.time;
+		} else if ( Time.time - lastFiredAt >= pulseLength) {
+			lineRenderer.enabled = false;
+		}
+
+		return hit ? hitData.collider.gameObject == target : false ;
 	}
 
 	public void fireEnd (){

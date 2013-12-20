@@ -7,8 +7,9 @@ public class Actor : MonoBehaviour {
 	// common attributes for all Actors
 
 	public float health = 100.0f;
-	public float firePower = 0.2f;
+	public float firePower = 1.0f;
 	public float rateOfFire = 0.2f;
+	public float pulseLength = 0.8f;
 	public float targetDistance = 3.0f;
 	//public enum actorType;
 
@@ -39,7 +40,6 @@ public class Actor : MonoBehaviour {
 		if (health <= 0) {
 			// TODO: play some kind of death animation
 			// once the animationis finished then:
-			Debug.Log(name + " is Dead!");
 			actorList.Remove(this.gameObject);
 			Destroy(this.gameObject);
 		}

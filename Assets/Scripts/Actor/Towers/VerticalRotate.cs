@@ -27,8 +27,8 @@ public class VerticalRotate : Tower {
 					}
 				}
 			}
-			laser.barrelEnd = transform.GetChild (0).gameObject;
-			laser.target = target;
+			//laser.barrelEnd = transform.GetChild (0).gameObject;
+			//laser.target = target;
 		}
 		if (target != null && Actor.actorList.Count > 0){
 
@@ -45,9 +45,17 @@ public class VerticalRotate : Tower {
 			if ( Quaternion.Angle( transform.localRotation, rot) <= accuracy )
 			{
 				if (laser.lineRenderer != null){
-					laser.fire();
-					Actor tmpAct = (Actor)target.GetComponent("Actor");
-					tmpAct.health -= 1.0f;
+
+					GameObject barrel = transform.GetChild(0).gameObject;
+					Vector3 fireFrom = barrel.transform.position;
+					Vector3 fireDir = -barrel.transform.up;
+					fireDir.Normalize();
+
+					if (laser.fireFromAndTest(fireFrom,fireDir,target)){
+						Actor tmpAct = (Actor)target.GetComponent("Actor");
+						Actor thisActor = (Actor)GetComponent("Actor");
+						tmpAct.health -=  thisActor.firePower;
+					}
 				}
 			} else{
 				if (laser.lineRenderer != null){

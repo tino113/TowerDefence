@@ -25,6 +25,7 @@ public class SpawnEnemies : Actor {
 			randomPoint = Vector3.Scale(randomPoint, ground.transform.localScale);
 			GameObject instEnemy = (GameObject)Instantiate (enemyType, randomPoint, Quaternion.LookRotation(-randomPoint));
 			instEnemy.AddComponent("BasicEnemy");
+			instEnemy.AddComponent("BoxCollider"); // for raycast hit
 
 			instEnemy.tag = "enemy";
 			actorList.Add(instEnemy);
