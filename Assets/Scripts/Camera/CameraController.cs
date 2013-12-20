@@ -5,55 +5,65 @@ public class CameraController : MonoBehaviour {
 
 	private float zoomSpeed = 5f;
 	private float zoomDamping = 6f;
-	
-	private float zoom = 40f;
-
-	private float minHeight = 5f;
-	private float maxHeight = 25f;
-	private float minFoV = 40f;
-	private float maxFoV = 60f;
-	private float minRotate = 7f;
-	private float maxRotate = 80f;
 
 	private float moveSpeed = 1f;
-	private float horizontalMove = 0f;
-	private float verticalMove = 0f;
 	private float moveDamping = 20f;
 
+	private float minY = 5f;
+	private float maxY = 25f;
+	private float minFoV = 40f;
+	private float maxFoV = 60f;
+	private float minR = 7f;
+	private float maxRs = 80f;
+
+	private float zoom;
+	private float targetX;
+	private float targetY;
+	private float targetZ;
+	private float targetR;
+	private float targetFoV;
+
 	void Start(){
-		transform.localRotation = Quaternion.Euler ((((maxRotate - minRotate) / 100) * zoom) + minRotate, 0, 0);
+		zoom      = 30f;
+		targetX   = 0f;
+		targetY   = ZoomCalc(minY, maxY);
+		targetZ   = -12f;
+		targetR   = ZoomCalc(minR, maxRs);
+		targetFoV = ZoomCalc(minFoV, maxFoV);
+		UpdateCamera ();
 	}
 
 	void Update () {
-		UpdateFromInput ();
-		
-		UpdateCamera (
-			MoveLerp (transform.position.x, horizontalMove),
-		    ZoomLerp (transform.position.y, minHeight, maxHeight),
-		    MoveLerp (transform.position.z, verticalMove),
-		    ZoomLerp (transform.localRotation.eulerAngles.x, minRotate, maxRotate),
-		    ZoomLerp (camera.fieldOfView, minFoV, maxFoV)
-		);
+		UpdateInput ();
+		targetX   = MoveLerp (transform.position.x, targetX);
+		targetY   = ZoomLerp (transform.position.y, minY, maxY);
+		targetZ   = MoveLerp (transform.position.z, targetZ);
+		targetR   = ZoomLerp (transform.localRotation.eulerAngles.x, minR, maxRs);
+		targetFoV = ZoomLerp (camera.fieldOfView, minFoV, maxFoV);
+		UpdateCamera ();
 	}
-	
+
 	private float MoveLerp(float from, float to) {
 		return Mathf.Lerp (from, to, Time.deltaTime * moveDamping);
 	}
-	
+
 	private float ZoomLerp(float from, float min, float max) {
-		float to = (((max - min) / 100) * zoom) + min;
-		return Mathf.Lerp (from, to, Time.deltaTime * zoomDamping);
+		return Mathf.Lerp (from, ZoomCalc(min, max), Time.deltaTime * zoomDamping);
 	}
 
-	private void UpdateCamera(float x, float y, float z, float rotate, float fieldOfView) {
-		transform.localRotation = Quaternion.Euler(rotate, 0, 0);
-		transform.position = new Vector3 (x, y, z);
-		camera.fieldOfView = fieldOfView;
+	private float ZoomCalc(float min, float max) {
+		return (((max - min) / 100) * (100 - zoom)) + min;
 	}
 
-	private void UpdateFromInput(){
-		horizontalMove += Input.GetAxis("Horizontal") * moveSpeed;
-		verticalMove += Input.GetAxis("Vertical") * moveSpeed;
+	private void UpdateCamera() {
+		transform.localRotation = Quaternion.Euler(targetR, 0, 0);
+		transform.position = new Vector3 (targetX, targetY, targetZ);
+		camera.fieldOfView = targetFoV;
+	}
+
+	private void UpdateInput(){
+		targetX += Input.GetAxis("Horizontal") * moveSpeed;
+		targetZ += Input.GetAxis("Vertical") * moveSpeed;
 		zoom += Input.GetAxis ("Mouse ScrollWheel") * 40f;
 		zoom = Mathf.Clamp (zoom, 0, 100);
 	}
