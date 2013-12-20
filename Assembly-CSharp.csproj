@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\Actor\Towers\Tower.cs" />
      <Compile Include="Assets\Scripts\Actor\Towers\VerticalRotate.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
+     <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
