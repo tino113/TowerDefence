@@ -12,10 +12,26 @@ public class Laser : Actor {
 
 	public float lastFiredAt = 0.0f;
 
-	public LineRenderer lineRenderer = new LineRenderer();
+	public LineRenderer lineRenderer  = new LineRenderer();
+	public LineRenderer lineRenderer2 = new LineRenderer();
+	public LineRenderer lineRenderer3 = new LineRenderer();
 
 	// Use this for initialization
 	public void Start () {
+		lineRenderer = (LineRenderer)this.gameObject.AddComponent("LineRenderer");
+		lineRenderer.material = new Material (Shader.Find("Particles/Additive"));
+		lineRenderer.SetColors (startColour, endColour);
+		lineRenderer.SetWidth(0.03f,0.02f);
+		lineRenderer.SetVertexCount(2);
+		lineRenderer.enabled = false;
+
+		lineRenderer = (LineRenderer)this.gameObject.AddComponent("LineRenderer");
+		lineRenderer.material = new Material (Shader.Find("Particles/Additive"));
+		lineRenderer.SetColors (startColour, endColour);
+		lineRenderer.SetWidth(0.03f,0.02f);
+		lineRenderer.SetVertexCount(2);
+		lineRenderer.enabled = false;
+
 		lineRenderer = (LineRenderer)this.gameObject.AddComponent("LineRenderer");
 		lineRenderer.material = new Material (Shader.Find("Particles/Additive"));
 		lineRenderer.SetColors (startColour, endColour);
